@@ -2,5 +2,6 @@
 
 from primitive_db.engine import welcome
 
+
 def main():
     welcome()
