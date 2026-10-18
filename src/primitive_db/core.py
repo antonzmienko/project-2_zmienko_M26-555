@@ -1,3 +1,4 @@
+from primitive_db.constants import ALLOWED_TYPES
 from primitive_db.decorators import (
     confirm_action,
     create_cacher,
@@ -5,8 +6,6 @@ from primitive_db.decorators import (
     log_time,
 )
 
-ALLOWED_TYPES = ('int', 'str', 'bool')
-DB_META_FILE_NAME = 'db_meta.json'
 _select_cacher = create_cacher()
 
 

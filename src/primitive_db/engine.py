@@ -3,8 +3,20 @@ import shlex
 import prompt
 from prettytable import PrettyTable
 
-from primitive_db.core import (
+from primitive_db.constants import (
+    COMMAND_CREATE_TABLE,
+    COMMAND_DELETE,
+    COMMAND_DROP_TABLE,
+    COMMAND_EXIT,
+    COMMAND_HELP,
+    COMMAND_INFO,
+    COMMAND_INSERT,
+    COMMAND_LIST_TABLES,
+    COMMAND_SELECT,
+    COMMAND_UPDATE,
     DB_META_FILE_NAME,
+)
+from primitive_db.core import (
     _filter_rows,
     create_table,
     delete,
@@ -22,17 +34,6 @@ from primitive_db.utils import (
     save_metadata,
     save_table_data,
 )
-
-COMMAND_EXIT = 'exit'
-COMMAND_HELP = 'help'
-COMMAND_CREATE_TABLE = 'create_table'
-COMMAND_DROP_TABLE = 'drop_table'
-COMMAND_LIST_TABLES = 'list_tables'
-COMMAND_INSERT = 'insert'
-COMMAND_SELECT = 'select'
-COMMAND_UPDATE = 'update'
-COMMAND_DELETE = 'delete'
-COMMAND_INFO = 'info'
 
 
 def run():
