@@ -4,10 +4,17 @@
 
 ## Управление таблицами
 
+Сборка и установка:
+
+```bash
+uv build
+uv tool install --force dist/*.whl
+```
+
 Запуск:
 
 ```bash
-project
+database
 ```
 
 Команды:
@@ -23,7 +30,7 @@ project
 Пример:
 
 ```text
-$ project
+$ database
 
 ***Процесс работы с таблицей***
 Функции:
@@ -52,3 +59,7 @@ $ project
 
 Введите команду: exit
 ```
+
+## Демонстрация
+
+[![asciicast](https://asciinema.org/a/Gfjrnq1Skv5I1zUe.svg)](https://asciinema.org/a/Gfjrnq1Skv5I1zUe)
