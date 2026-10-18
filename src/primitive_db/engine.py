@@ -15,6 +15,7 @@ from primitive_db.core import (
 )
 from primitive_db.parser import parse_set_clause, parse_values, parse_where_clause
 from primitive_db.utils import (
+    delete_table_data,
     load_metadata,
     load_table_data,
     save_metadata,
@@ -137,6 +138,7 @@ def __handle_drop_table(metadata, args):
         return
 
     save_metadata(DB_META_FILE_NAME, metadata)
+    delete_table_data(table_name)
     print(f'Таблица "{table_name}" успешно удалена.')
 
 

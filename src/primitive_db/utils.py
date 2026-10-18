@@ -31,3 +31,12 @@ def save_table_data(table_name, data):
     with open(filepath, 'w') as file:
         json.dump(data, file, ensure_ascii=False, indent=2)
     return True
+
+
+def delete_table_data(table_name):
+    filepath = f'{DATA_DIR}/{table_name}.json'
+    try:
+        __import__('os').remove(filepath)
+    except FileNotFoundError:
+        pass
+    return True
