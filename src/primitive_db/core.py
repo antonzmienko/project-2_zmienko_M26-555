@@ -1,7 +1,13 @@
-from primitive_db.decorators import confirm_action, handle_db_errors, log_time
+from primitive_db.decorators import (
+    confirm_action,
+    create_cacher,
+    handle_db_errors,
+    log_time,
+)
 
 ALLOWED_TYPES = ('int', 'str', 'bool')
 DB_META_FILE_NAME = 'db_meta.json'
+_select_cacher = create_cacher()
 
 
 @handle_db_errors
@@ -75,13 +81,20 @@ def insert(metadata, table_name, table_data, values):
 @handle_db_errors
 @log_time
 def select(table_data, where_clause=None):
-    if where_clause is None:
-        return list(table_data)
+    cache_key = (
+        tuple(tuple(sorted(row.items())) for row in table_data),
+        tuple(sorted((where_clause or {}).items())),
+    )
 
-    return [
-        row for row in table_data
-        if __matches_where(row, where_clause)
-    ]
+    def fetch():
+        if where_clause is None:
+            return list(table_data)
+        return [
+            row for row in table_data
+            if __matches_where(row, where_clause)
+        ]
+
+    return _select_cacher(cache_key, fetch)
 
 
 @handle_db_errors
