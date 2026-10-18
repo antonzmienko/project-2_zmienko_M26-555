@@ -5,6 +5,7 @@ from prettytable import PrettyTable
 
 from primitive_db.core import (
     DB_META_FILE_NAME,
+    _filter_rows,
     create_table,
     delete,
     drop_table,
@@ -186,9 +187,7 @@ def __handle_update(metadata, user_input):
         return
 
     table_data = load_table_data(table_name)
-    matched = select(table_data, where_clause)
-    if matched is None:
-        return
+    matched = _filter_rows(table_data, where_clause)
     if not matched:
         print('Ошибка: подходящие записи не найдены.')
         return
@@ -216,9 +215,7 @@ def __handle_delete(metadata, user_input):
         return
 
     table_data = load_table_data(table_name)
-    matched = select(table_data, where_clause)
-    if matched is None:
-        return
+    matched = _filter_rows(table_data, where_clause)
     if not matched:
         print('Ошибка: подходящие записи не найдены.')
         return
