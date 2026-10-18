@@ -1,4 +1,5 @@
 import json
+import os
 
 DATA_DIR = 'data'
 
@@ -36,7 +37,7 @@ def save_table_data(table_name, data):
 def delete_table_data(table_name):
     filepath = f'{DATA_DIR}/{table_name}.json'
     try:
-        __import__('os').remove(filepath)
+        os.remove(filepath)
     except FileNotFoundError:
         pass
     return True

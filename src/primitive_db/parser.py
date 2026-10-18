@@ -85,10 +85,12 @@ def __parse_value(raw_value):
     if lowered == 'false':
         return False
 
-    try:
+    if raw_value.isdigit() or (
+        raw_value.startswith('-') and raw_value[1:].isdigit()
+    ):
         return int(raw_value)
-    except ValueError:
-        raise ValueError(
-            f'Некорректное значение: {raw_value}. '
-            'Строковые значения указывайте в кавычках.'
-        )
+
+    raise ValueError(
+        f'Некорректное значение: {raw_value}. '
+        'Строковые значения указывайте в кавычках.'
+    )

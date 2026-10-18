@@ -145,10 +145,6 @@ def __handle_insert(metadata, user_input):
         __print_error(error)
         return
 
-    if table_name not in metadata:
-        print(f'Ошибка: Таблица "{table_name}" не существует.')
-        return
-
     table_data = load_table_data(table_name)
     table_data = insert(metadata, table_name, table_data, values)
     if table_data is None:
