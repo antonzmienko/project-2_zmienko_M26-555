@@ -1,4 +1,4 @@
-from primitive_db.decorators import handle_db_errors
+from primitive_db.decorators import confirm_action, handle_db_errors
 
 ALLOWED_TYPES = ('int', 'str', 'bool')
 DB_META_FILE_NAME = 'db_meta.json'
@@ -24,6 +24,7 @@ def create_table(metadata, table_name, columns):
 
 
 @handle_db_errors
+@confirm_action('удаление таблицы')
 def drop_table(metadata, table_name):
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
@@ -90,6 +91,7 @@ def update(table_data, set_clause, where_clause):
 
 
 @handle_db_errors
+@confirm_action('удаление записи')
 def delete(table_data, where_clause):
     return [
         row for row in table_data
