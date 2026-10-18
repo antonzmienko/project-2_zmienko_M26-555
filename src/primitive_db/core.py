@@ -1,4 +1,4 @@
-from primitive_db.decorators import confirm_action, handle_db_errors
+from primitive_db.decorators import confirm_action, handle_db_errors, log_time
 
 ALLOWED_TYPES = ('int', 'str', 'bool')
 DB_META_FILE_NAME = 'db_meta.json'
@@ -43,6 +43,7 @@ def list_tables(metadata):
 
 
 @handle_db_errors
+@log_time
 def insert(metadata, table_name, table_data, values):
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
@@ -72,6 +73,7 @@ def insert(metadata, table_name, table_data, values):
 
 
 @handle_db_errors
+@log_time
 def select(table_data, where_clause=None):
     if where_clause is None:
         return list(table_data)
