@@ -1,11 +1,15 @@
+import json
+
+
 def load_metadata(filepath):
     try:
         with open(filepath, 'r') as file:
             return json.load(file)
     except FileNotFoundError:
         return {}
-    return {}
+
 
 def save_metadata(filepath, data):
-    json.dump(data, open(filepath, 'w'))
+    with open(filepath, 'w') as file:
+        json.dump(data, file, ensure_ascii=False, indent=2)
     return True

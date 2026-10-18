@@ -1,54 +1,54 @@
+ALLOWED_TYPES = ('int', 'str', 'bool')
 DB_META_FILE_NAME = 'db_meta.json'
 
+
 def create_table(metadata, table_name, columns):
-    __check_unique_table_name(metadata, table_name)
-    __validate_columns(columns)
+    if table_name in metadata:
+        raise ValueError(f'Таблица "{table_name}" уже существует.')
 
-    idColumnIndex = None
-    if {id: int} in columns:
-        idColumnIndex = columns.index({name: 'ID', type: 'int'})
+    validated = __validate_columns(columns)
+    validated = [
+        col for col in validated
+        if col.split(':', 1)[0].lower() != 'id'
+    ]
+    validated.insert(0, 'ID:int')
 
-    if idColumnIndex is None:
-        columns.insert(0, {name: 'ID', type: 'int'})
-    elif idColumnIndex != 0:
-        columns.insert(0, columns.pop(idColumnIndex))
-
-    table = {
-        'name': table_name,
-        'columns': columns
-    }
-    metadata[table_name] = table
-
+    metadata[table_name] = validated
     return metadata
 
+
 def drop_table(metadata, table_name):
-    __check_table_exists(metadata, table_name)
+    if table_name not in metadata:
+        raise ValueError(f'Таблица "{table_name}" не существует.')
+
     del metadata[table_name]
     return metadata
 
+
+def list_tables(metadata):
+    if not metadata:
+        print('Таблицы отсутствуют.')
+        return
+
+    for table_name in metadata:
+        print(f'- {table_name}')
+
+
 def __validate_columns(columns: list):
     column_names = []
+    validated = []
+
     for column in columns:
-        if column.get('type') is None:
-            raise ValueError('Column type is required')
-        if column.get('type') not in ['int', 'float', 'str', 'bool']:
-            raise ValueError('Invalid column type')
-        if column.get('name') is None:
-            raise ValueError('Column name is required')
-        if column.get('name') in column_names:
-            raise ValueError('Column name must be unique')
+        if ':' not in column:
+            raise ValueError(f'Некорректное значение: {column}.')
 
-        column_names.append(column.get('name'))
+        name, col_type = column.rsplit(':', 1)
+        if not name or col_type not in ALLOWED_TYPES:
+            raise ValueError(f'Некорректное значение: {column}.')
+        if name in column_names:
+            raise ValueError(f'Некорректное значение: {column}.')
 
-def __check_unique_table_name(metadata, table_name):
-    table = next(
-        (t for t in metadata["tables"] if t["table_name"] == table_name),
-        None
-    )
+        column_names.append(name)
+        validated.append(f'{name}:{col_type}')
 
-    if table is not None:
-        raise ValueError('Table name must be unique')
-
-def __check_table_exists(metadata, table_name):
-    if table_name not in metadata:
-        raise ValueError('Table does not exist')
+    return validated
