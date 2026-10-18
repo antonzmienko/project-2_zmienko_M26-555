@@ -78,6 +78,15 @@ def insert(metadata, table_name, table_data, values):
     return table_data
 
 
+def _filter_rows(table_data, where_clause=None):
+    if where_clause is None:
+        return list(table_data)
+    return [
+        row for row in table_data
+        if __matches_where(row, where_clause)
+    ]
+
+
 @handle_db_errors
 @log_time
 def select(table_data, where_clause=None):
@@ -87,12 +96,7 @@ def select(table_data, where_clause=None):
     )
 
     def fetch():
-        if where_clause is None:
-            return list(table_data)
-        return [
-            row for row in table_data
-            if __matches_where(row, where_clause)
-        ]
+        return _filter_rows(table_data, where_clause)
 
     return _select_cacher(cache_key, fetch)
 
