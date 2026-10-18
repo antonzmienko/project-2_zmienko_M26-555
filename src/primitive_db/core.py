@@ -1,7 +1,10 @@
+from primitive_db.decorators import handle_db_errors
+
 ALLOWED_TYPES = ('int', 'str', 'bool')
 DB_META_FILE_NAME = 'db_meta.json'
 
 
+@handle_db_errors
 def create_table(metadata, table_name, columns):
     if table_name in metadata:
         raise ValueError(f'Таблица "{table_name}" уже существует.')
@@ -20,6 +23,7 @@ def create_table(metadata, table_name, columns):
     return metadata
 
 
+@handle_db_errors
 def drop_table(metadata, table_name):
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
@@ -37,6 +41,7 @@ def list_tables(metadata):
         print(f'- {table_name}')
 
 
+@handle_db_errors
 def insert(metadata, table_name, table_data, values):
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
@@ -65,6 +70,7 @@ def insert(metadata, table_name, table_data, values):
     return table_data
 
 
+@handle_db_errors
 def select(table_data, where_clause=None):
     if where_clause is None:
         return list(table_data)
@@ -75,6 +81,7 @@ def select(table_data, where_clause=None):
     ]
 
 
+@handle_db_errors
 def update(table_data, set_clause, where_clause):
     for row in table_data:
         if __matches_where(row, where_clause):
@@ -82,6 +89,7 @@ def update(table_data, set_clause, where_clause):
     return table_data
 
 
+@handle_db_errors
 def delete(table_data, where_clause):
     return [
         row for row in table_data

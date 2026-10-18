@@ -111,10 +111,8 @@ def __handle_create_table(metadata, args):
         return
 
     table_name, *columns = args
-    try:
-        metadata = create_table(metadata, table_name, columns)
-    except ValueError as error:
-        __print_error(error)
+    metadata = create_table(metadata, table_name, columns)
+    if metadata is None:
         return
 
     save_metadata(DB_META_FILE_NAME, metadata)
@@ -131,10 +129,8 @@ def __handle_drop_table(metadata, args):
         return
 
     table_name = args[0]
-    try:
-        metadata = drop_table(metadata, table_name)
-    except ValueError as error:
-        print(f'Ошибка: {error}')
+    metadata = drop_table(metadata, table_name)
+    if metadata is None:
         return
 
     save_metadata(DB_META_FILE_NAME, metadata)
@@ -154,10 +150,8 @@ def __handle_insert(metadata, user_input):
         return
 
     table_data = load_table_data(table_name)
-    try:
-        table_data = insert(metadata, table_name, table_data, values)
-    except ValueError as error:
-        __print_error(error)
+    table_data = insert(metadata, table_name, table_data, values)
+    if table_data is None:
         return
 
     save_table_data(table_name, table_data)
@@ -179,6 +173,8 @@ def __handle_select(metadata, user_input):
 
     table_data = load_table_data(table_name)
     rows = select(table_data, where_clause)
+    if rows is None:
+        return
     __print_rows(rows, metadata[table_name]['columns'])
 
 
@@ -195,11 +191,15 @@ def __handle_update(metadata, user_input):
 
     table_data = load_table_data(table_name)
     matched = select(table_data, where_clause)
+    if matched is None:
+        return
     if not matched:
         print('Ошибка: подходящие записи не найдены.')
         return
 
     table_data = update(table_data, set_clause, where_clause)
+    if table_data is None:
+        return
     save_table_data(table_name, table_data)
     for row in matched:
         print(
@@ -221,11 +221,15 @@ def __handle_delete(metadata, user_input):
 
     table_data = load_table_data(table_name)
     matched = select(table_data, where_clause)
+    if matched is None:
+        return
     if not matched:
         print('Ошибка: подходящие записи не найдены.')
         return
 
     table_data = delete(table_data, where_clause)
+    if table_data is None:
+        return
     save_table_data(table_name, table_data)
     for row in matched:
         print(
