@@ -11,6 +11,7 @@ _select_cacher = create_cacher()
 
 @handle_db_errors
 def create_table(metadata, table_name, columns):
+    """Создаёт таблицу с указанными столбцами и добавляет ID:int."""
     if table_name in metadata:
         raise ValueError(f'Таблица "{table_name}" уже существует.')
 
@@ -31,6 +32,7 @@ def create_table(metadata, table_name, columns):
 @handle_db_errors
 @confirm_action('удаление таблицы')
 def drop_table(metadata, table_name):
+    """Удаляет таблицу из метаданных после подтверждения."""
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
 
@@ -39,6 +41,7 @@ def drop_table(metadata, table_name):
 
 
 def list_tables(metadata):
+    """Выводит список имён всех таблиц."""
     if not metadata:
         print('Таблицы отсутствуют.')
         return
@@ -50,6 +53,7 @@ def list_tables(metadata):
 @handle_db_errors
 @log_time
 def insert(metadata, table_name, table_data, values):
+    """Добавляет запись в таблицу с автоматическим ID."""
     if table_name not in metadata:
         raise ValueError(f'Таблица "{table_name}" не существует.')
 
@@ -89,6 +93,7 @@ def _filter_rows(table_data, where_clause=None):
 @handle_db_errors
 @log_time
 def select(table_data, where_clause=None):
+    """Возвращает записи таблицы, опционально по условию where."""
     cache_key = (
         tuple(tuple(sorted(row.items())) for row in table_data),
         tuple(sorted((where_clause or {}).items())),
@@ -102,6 +107,7 @@ def select(table_data, where_clause=None):
 
 @handle_db_errors
 def update(table_data, set_clause, where_clause):
+    """Обновляет записи, подходящие под условие where."""
     for row in table_data:
         if __matches_where(row, where_clause):
             row.update(set_clause)
@@ -111,6 +117,7 @@ def update(table_data, set_clause, where_clause):
 @handle_db_errors
 @confirm_action('удаление записи')
 def delete(table_data, where_clause):
+    """Удаляет записи по условию where после подтверждения."""
     return [
         row for row in table_data
         if not __matches_where(row, where_clause)
