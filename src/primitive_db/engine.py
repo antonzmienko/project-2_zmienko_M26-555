@@ -37,6 +37,7 @@ from primitive_db.utils import (
 
 
 def run():
+    """Запускает интерактивный цикл обработки команд БД."""
     print_help()
 
     while True:
@@ -80,6 +81,7 @@ def run():
 
 
 def print_help():
+    """Выводит справку по доступным командам."""
     print('\n***Процесс работы с таблицей***')
     print('Функции:')
     print('<command> create_table <имя_таблицы> <столбец1:тип> .. '
