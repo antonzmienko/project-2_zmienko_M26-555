@@ -63,10 +63,6 @@ $ database
 Введите команду: exit
 ```
 
-## Демонстрация
-
-[![asciicast](https://asciinema.org/a/4C2bjFQJRTlmsgs5.svg)](https://asciinema.org/a/4C2bjFQJRTlmsgs5)
-
 ## CRUD-операции
 
 Команды для работы с данными таблиц:
@@ -115,10 +111,6 @@ $ database
 Введите команду: exit
 ```
 
-## Демонстрация
-
-[![asciicast](https://asciinema.org/a/JpQEwmqFLjU5lqgE.svg)](https://asciinema.org/a/JpQEwmqFLjU5lqgE)
-
 ## Декораторы и надёжность
 
 В проекте используются декораторы и замыкания:
@@ -142,4 +134,4 @@ $ database
 
 ## Демонстрация
 
-[![asciicast](https://asciinema.org/a/kJ5qATeOExTMymn4.svg)](https://asciinema.org/a/kJ5qATeOExTMymn4)
+https://asciinema.org/a/F7qy2sv8zZZKb4mM
