@@ -1,6 +1,6 @@
 .venv
 dist/
-src/primitive_db/__pycache__/
+__pycache__/
 *.egg-info
 db_meta.json
 data/*.json
