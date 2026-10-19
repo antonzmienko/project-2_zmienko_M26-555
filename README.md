@@ -134,4 +134,4 @@ $ database
 
 ## Демонстрация
 
-https://asciinema.org/a/F7qy2sv8zZZKb4mM
+[![asciicast](https://asciinema.org/a/F7qy2sv8zZZKb4mM.svg)](https://asciinema.org/a/F7qy2sv8zZZKb4mM)

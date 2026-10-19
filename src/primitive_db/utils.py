@@ -39,6 +39,7 @@ def save_table_data(table_name, data):
 
 
 def delete_table_data(table_name):
+    """Удаляет JSON-файл с данными таблицы."""
     filepath = f'{DATA_DIR}/{table_name}.json'
     try:
         os.remove(filepath)

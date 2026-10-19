@@ -3,4 +3,5 @@ dist/
 __pycache__/
 *.egg-info
 db_meta.json
-data/*.json
+data/
+!data/.gitkeep

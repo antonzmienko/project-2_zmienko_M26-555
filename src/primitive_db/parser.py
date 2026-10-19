@@ -1,12 +1,15 @@
 def parse_where_clause(clause):
+    """Разбирает условие where в словарь столбец → значение."""
     return __parse_assignments(clause)
 
 
 def parse_set_clause(clause):
+    """Разбирает условие set в словарь столбец → значение."""
     return __parse_assignments(clause)
 
 
 def parse_values(values_clause):
+    """Разбирает список значений из insert values в список Python-объектов."""
     if not values_clause or not values_clause.strip():
         raise ValueError('Некорректное значение: пустой список значений.')
 
